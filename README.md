@@ -3,9 +3,44 @@
 Codex Maestro provides a local SQLite task queue and runs interactive Codex
 workers in separate Git worktrees and tmux windows.
 
+## Why I created Maestro
+
+I created Maestro because I wanted more control over how Codex tackles a large
+project that spans several technologies. I can break the project into smaller
+tasks and choose the model and reasoning effort for each one. A straightforward
+change can run with a lighter setup, and a difficult problem can get the extra
+reasoning it needs.
+
+The workflow also gave me a local queue that keeps task dependencies and
+progress across sessions. Each worker gets its own Git worktree and tmux window,
+so I can return to a worker or review its changes independently.
+
+## When to use Maestro
+
+Use Maestro when a project breaks into independently reviewable tasks that
+benefit from different models, reasoning effort, or isolated worktrees. For
+example, a feature might involve designing an API, implementing a client, and
+updating the docs. Give the API design a more capable model and higher reasoning
+effort, select a model suited to the client stack for implementation, and use
+lower effort for a straightforward docs update. Make client implementation
+depend on acceptance of the API contract if it needs that contract to proceed.
+
+You choose `--model` and `--effort` when dispatching each task. For a small,
+cohesive change in one checkout, use Native Codex by default.
+
+## Requirements
+
+- Linux or macOS
+- Python 3.10+ with the standard-library `sqlite3` module
+- Git with worktree support
+- tmux
+- An authenticated Codex CLI
+
+To dispatch a worker, use a local Git checkout whose GitHub `origin` matches
+the repository recorded on the task.
+
 ## Install
 
-On Linux or macOS, install Python 3.10+, Git, tmux, and an authenticated Codex CLI.
 Install Maestro from the GitHub-backed marketplace:
 
 ```sh
