@@ -6,8 +6,9 @@ workers in separate Git worktrees and tmux windows.
 ## Install
 
 On Linux or macOS, install Python 3.10+, Git, tmux, and an authenticated Codex CLI.
-Copy the complete `skills/codex-maestro` folder into `~/.agents/skills/`, then
-invoke `$codex-maestro` in Codex. You can also use the launcher directly:
+Download `codex-maestro.zip` from the latest GitHub release and extract it into
+`~/.agents/skills/`. From a source checkout, copy `skills/codex-maestro` to the
+same directory. Then invoke `$codex-maestro` in Codex. You can also use the launcher directly:
 
 ```sh
 maestro() { python3 -B ~/.agents/skills/codex-maestro/scripts/maestro.py "$@"; }
@@ -41,8 +42,7 @@ Use `task backup FILE` for a SQLite backup and `task restore FILE` with workers
 stopped and the destination database absent. Backups preserve claims and recovery
 paths, so check them when restoring elsewhere.
 
-## Release status
+## License
 
-Local staging only. The launcher and task store are adapted from WastingNoTime
-code, copyright (c) 2026 wastingnotime.org. Written permission to distribute
-that code under MIT is pending.
+MIT. The launcher and task store are adapted from WastingNoTime code.
+See LICENSE for the copyright notice and terms.
