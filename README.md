@@ -25,6 +25,29 @@ Use `task block TASK-2 --by TASK-1 --revision N` to add a dependency. Each task
 uses its own latest revision. Dispatch verifies GitHub origin and uses the local
 origin/HEAD unless you pass `--base REF`. No fetch is needed to launch.
 
+## Cross-repository milestones
+
+Use a task in each repository for independently accepted work. Create an
+ordinary task titled `Milestone: <outcome>` in the owning repository when those
+tasks share a checkpoint. Set its coordinator with `--owner` and record what
+evidence will satisfy acceptance. Make it depend on each required member.
+Downstream tasks can depend on that milestone when they need its outcome.
+A campaign coordination task can depend on its milestones and any remaining
+required tasks directly.
+
+For example, if TASK-2 is the milestone and TASK-3 needs its outcome:
+
+```sh
+maestro task block TASK-2 --by TASK-1 --revision 1
+maestro task block TASK-3 --by TASK-2 --revision 1
+maestro task transition TASK-2 ready --revision 2
+```
+
+After TASK-1 is done, TASK-2 can appear in `task ready`. Handle it manually.
+Verify the outcome and transition it through `in_progress` and `review`, then
+to `done` with `--evidence` and the latest revision. This satisfies TASK-3's
+milestone dependency.
+
 ## Recovery
 
 The queue, snapshots and worktrees are stored under
