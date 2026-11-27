@@ -66,6 +66,15 @@ maestro task transition TASK-2 ready --revision 2 >/dev/null
 if maestro dispatch TASK-2 --checkout "$PWD" --revision 3 --model stub --effort medium --base HEAD; then
     exit 1
 fi
+maestro task create --repository example/project --title "Failed launch" >/dev/null
+maestro task transition TASK-3 ready --revision 1 >/dev/null
+printf '#!/bin/sh\nexit 1\n' > .git/hooks/post-checkout
+chmod +x .git/hooks/post-checkout
+if maestro dispatch TASK-3 --checkout "$PWD" --revision 2 --model stub --effort medium --base HEAD; then
+    exit 1
+fi
+maestro status | grep -q '"state": "failed"'
+maestro task show TASK-3 | grep -q '"state": "in_progress"'
 tmux kill-server
 maestro task backup "$scratch/queue.sqlite3" >/dev/null
 rm "$HOME/.local/share/codex-maestro/tasks.sqlite3"
