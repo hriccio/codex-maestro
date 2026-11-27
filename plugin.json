@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "codex-maestro",
+  "version": "0.2.0",
+  "description": "Manage a local Codex task queue and dispatch workers in isolated Git worktrees.",
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/hooks.json"
+    }
+  }
+}

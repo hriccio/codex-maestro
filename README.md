@@ -6,9 +6,41 @@ workers in separate Git worktrees and tmux windows.
 ## Install
 
 On Linux or macOS, install Python 3.10+, Git, tmux, and an authenticated Codex CLI.
+Install Maestro from the GitHub-backed marketplace:
+
+```sh
+codex plugin marketplace add hriccio/codex-maestro
+codex plugin add codex-maestro@hriccio-tools
+```
+
+Start a new Codex session and invoke `$codex-maestro:codex-maestro` using the
+plugin-qualified name. To refresh the catalog and install the latest version:
+
+```sh
+codex plugin marketplace upgrade hriccio-tools
+codex plugin add codex-maestro@hriccio-tools
+```
+
+To remove the plugin, run `codex plugin remove codex-maestro@hriccio-tools`.
+
+### Planning guidance
+
+On a Codex client that loads plugin hooks, review and trust Maestro's
+`SessionStart` hook in the hook settings, then start a new session. The hook
+supplies [the planning rule](planning.md) as session context.
+
+Codex CLI 0.172.0 did not expose the bundled hook in terminal testing. To opt in
+manually, copy the contents of [planning.md](planning.md) into your active
+user-level `AGENTS.md` (usually `~/.codex/AGENTS.md`, or
+`$CODEX_HOME/AGENTS.md` if set). If you already have the rule there, keep one
+copy. Start a new session to load the guidance.
+
+### Standalone install
+
 Download `codex-maestro.zip` from the latest GitHub release and extract it into
 `~/.agents/skills/`. From a source checkout, copy `skills/codex-maestro` to the
-same directory. Then invoke `$codex-maestro` in Codex. You can also use the launcher directly:
+same directory. Then invoke `$codex-maestro` in Codex. You can also use the
+launcher directly:
 
 ```sh
 maestro() { python3 -B ~/.agents/skills/codex-maestro/scripts/maestro.py "$@"; }
